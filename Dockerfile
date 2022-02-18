@@ -88,7 +88,7 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         socat \
         locales \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
-    && gem install bundler \
+    && gem install bundler --version 2.0.2 \
     && rm -rf /var/lib/apt/lists/*;
 
 # install nodejs and yarn packages from nodesource
@@ -116,5 +116,3 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "ndk;$NDK_VERSION" \
     && rm -rf ${ANDROID_HOME}/.android \
     && ln -s ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.9 ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.8
-    
-RUN gem install bundler --version 2.0.2
