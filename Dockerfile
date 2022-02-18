@@ -23,10 +23,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # set default build arguments
 ARG SDK_VERSION=commandlinetools-linux-7302050_latest.zip
-ARG ANDROID_BUILD_VERSION=31
-ARG ANDROID_TOOLS_VERSION=31.0.0
+ARG ANDROID_BUILD_VERSION=29
+ARG ANDROID_TOOLS_VERSION=29.0.2
 ARG NDK_VERSION=21.4.7075529
-ARG NODE_VERSION=14.x
+ARG NODE_VERSION=16.x
 ARG WATCHMAN_VERSION=4.9.0
 
 # set default environment variables, please don't remove old env for compatibilty issue
@@ -86,6 +86,8 @@ RUN apt update -qq && apt install -qq -y --no-install-recommends \
         libgl1 \
         pulseaudio \
         socat \
+        locales \
+    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
     && gem install bundler \
     && rm -rf /var/lib/apt/lists/*;
 
@@ -114,3 +116,5 @@ RUN curl -sS https://dl.google.com/android/repository/${SDK_VERSION} -o /tmp/sdk
         "ndk;$NDK_VERSION" \
     && rm -rf ${ANDROID_HOME}/.android \
     && ln -s ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.9 ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/lib64/clang/9.0.8
+    
+RUN gem install bundler --version 2.0.2
